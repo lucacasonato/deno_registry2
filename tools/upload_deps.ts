@@ -34,7 +34,7 @@ await asyncPool(8, builds, async (rawBuild: any) => {
       build.options.moduleName,
       build.options.version,
       err,
-      err?.response
+      err?.response,
     );
     message += " Failed to run dependency analysis.";
   });
