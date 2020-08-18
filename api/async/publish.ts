@@ -62,6 +62,14 @@ export async function handler(
         throw new Error(`Unknown build type: ${build.options.type}`);
     }
 
+    console.log(
+      `Analyzing dependencies for ${build.options.moduleName}@${build.options.version}`,
+    );
+    await database.saveBuild({
+      ...build,
+      status: "analyzing_dependencies",
+    });
+
     let message = "Published module.";
 
     await analyzeDependencies(build).catch((err) => {
@@ -227,15 +235,7 @@ interface DependencyGraph {
   };
 }
 
-async function analyzeDependencies(build: Build): Promise<void> {
-  console.log(
-    `Analyzing dependencies for ${build.options.moduleName}@${build.options.version}`,
-  );
-  await database.saveBuild({
-    ...build,
-    status: "analyzing_dependencies",
-  });
-
+export async function analyzeDependencies(build: Build): Promise<void> {
   const { options: { moduleName, version } } = build;
   const denoDir = await Deno.makeTempDir();
   const prefix = remoteURL.replace("%m", moduleName).replace("%v", version);
