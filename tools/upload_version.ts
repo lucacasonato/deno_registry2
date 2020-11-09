@@ -7,8 +7,8 @@ const buildID = await database.createBuild({
   options: {
     moduleName: "deno",
     repository: "denoland/deno",
-    ref: "v1.3.1",
-    version: "v1.3.1",
+    ref: "v1.5.2",
+    version: "v1.5.2",
     type: "github",
   },
   status: "queued",
